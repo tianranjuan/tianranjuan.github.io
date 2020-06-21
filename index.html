@@ -57,7 +57,7 @@
 
   
     
-    <h3 class="article-title"><a href="/2020/06/21/享元模式/"><span>享元模式</span></a></h3>
+    <h3 class="article-title"><a href="/2020/06/21/享元模式/"><span>观察者模式</span></a></h3>
     
   
 
@@ -102,7 +102,21 @@
     <div class="article-meta pull-left">
 
     
+      
 
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/游戏设计模式/">游戏设计模式</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/设计模式/">设计模式</a><a href="/tags/游戏设计模式/">游戏设计模式</a>
+    </span>
     
 
     </div>
@@ -117,7 +131,7 @@
 
   
     
-    <h3 class="article-title"><a href="/2020/06/21/命令模式/"><span>命令模式</span></a></h3>
+    <h3 class="article-title"><a href="/2020/06/21/命令模式/"><span>观察者模式</span></a></h3>
     
   
 
@@ -187,7 +201,93 @@
     <div class="article-meta pull-left">
 
     
+      
 
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/游戏设计模式/">游戏设计模式</a>, <a href="/categories/游戏设计模式/设计模式/">设计模式</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/设计模式/">设计模式</a><a href="/tags/游戏设计模式/">游戏设计模式</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2020/06/21/观察者模式/"><span>观察者模式</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/06/21/观察者模式/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-06-21T15:22:34.373Z">
+          2020-06-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>观察者模式通过“主题”与“观察者”以低耦合的方式来解决对象间存在的一对多关系，如某一对象状态发生改变时，对其他依赖组件发送通知并自动更新。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>具有一对多关系且需要同时更新的场景</p>
+<h2 id="游戏中的实例"><a href="#游戏中的实例" class="headerlink" title="游戏中的实例"></a>游戏中的实例</h2><ul>
+<li>数据变化与ui的绑定</li>
+<li>成就系统<blockquote>
+<p>思考题: 观察者模式与发布订阅的区别</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="模式中的角色"><a href="#模式中的角色" class="headerlink" title="模式中的角色"></a>模式中的角色</h2><ul>
+<li>subject(被观察者、主题)是一个基类，包含notify、addObjserver、removeObserver等接口，用来注册观察者，并在状态发生改变时通知所有观察者;</li>
+<li>observer(观察者)是一个基类，包含update接口，将自身注册到被观察者类中，并在收到通知后进行状态的更新。</li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/游戏设计模式/">游戏设计模式</a>, <a href="/categories/游戏设计模式/设计模式/">设计模式</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/设计模式/">设计模式</a><a href="/tags/游戏设计模式/">游戏设计模式</a>
+    </span>
     
 
     </div>
@@ -235,65 +335,21 @@
     <div class="article-meta pull-left">
 
     
+      
 
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2020/06/21/hello-world/"><span>Hello World</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2020/06/21/hello-world/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-06-21T14:43:57.841Z">
-          2020-06-21
-        </time>
-      </a>
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/V8/">V8</a>
     </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
     
 
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/JavaScript/">JavaScript</a>
+    </span>
     
 
     </div>
@@ -308,15 +364,15 @@
 
   
     
-    <h3 class="article-title"><a href="/2020/03/25/发布订阅模式与观察者模式的区别/"><span>发布订阅模式与观察者模式的区别</span></a></h3>
+    <h3 class="article-title"><a href="/2020/06/21/发布订阅模式与观察者模式的区别/"><span>发布订阅模式与观察者模式的区别</span></a></h3>
     
   
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/2020/03/25/发布订阅模式与观察者模式的区别/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-03-25T10:00:00.000Z">
-          2020-03-25
+      <a href="/2020/06/21/发布订阅模式与观察者模式的区别/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-06-21T14:55:29.656Z">
+          2020-06-21
         </time>
       </a>
     </span>
@@ -375,7 +431,7 @@
 
     <span class="post-tags">
       <i class="icon-tags"></i>
-        <a href="/tags/ID生成器/">ID生成器</a><a href="/tags/哈希/">哈希</a>
+        <a href="/tags/设计模式/">设计模式</a><a href="/tags/游戏设计模式/">游戏设计模式</a>
     </span>
     
 
@@ -391,15 +447,15 @@
 
   
     
-    <h3 class="article-title"><a href="/2020/03/25/观察者模式/"><span>观察者模式</span></a></h3>
+    <h3 class="article-title"><a href="/2020/06/21/hello-world/"><span>Hello World</span></a></h3>
     
   
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/2020/03/25/观察者模式/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-03-25T10:00:00.000Z">
-          2020-03-25
+      <a href="/2020/06/21/hello-world/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-06-21T14:43:57.841Z">
+          2020-06-21
         </time>
       </a>
     </span>
@@ -411,19 +467,19 @@
   <div class="article-content">
     <div class="entry">
       
-        <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>观察者模式通过“主题”与“观察者”以低耦合的方式来解决对象间存在的一对多关系，如某一对象状态发生改变时，对其他依赖组件发送通知并自动更新。</p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>具有一对多关系且需要同时更新的场景</p>
-<h2 id="游戏中的实例"><a href="#游戏中的实例" class="headerlink" title="游戏中的实例"></a>游戏中的实例</h2><ul>
-<li>数据变化与ui的绑定</li>
-<li>成就系统<blockquote>
-<p>思考题: 观察者模式与发布订阅的区别</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="模式中的角色"><a href="#模式中的角色" class="headerlink" title="模式中的角色"></a>模式中的角色</h2><ul>
-<li>subject(被观察者、主题)是一个基类，包含notify、addObjserver、removeObserver等接口，用来注册观察者，并在状态发生改变时通知所有观察者;</li>
-<li>observer(观察者)是一个基类，包含update接口，将自身注册到被观察者类中，并在收到通知后进行状态的更新。</li>
-</ul>
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
       
     </div>
@@ -434,21 +490,7 @@
     <div class="article-meta pull-left">
 
     
-      
 
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/系统设计/">系统设计</a>
-    </span>
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/ID生成器/">ID生成器</a><a href="/tags/哈希/">哈希</a>
-    </span>
     
 
     </div>
