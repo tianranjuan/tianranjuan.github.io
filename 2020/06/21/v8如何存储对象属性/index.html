@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>v8如何存储对象属性 | 天然卷打工战士 | 全干工程师</title>
+
+  
+  <meta name="author" content="天然卷">
+  
+
+  
+  <meta name="description" content="JavaScript Developer">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="v8如何存储对象属性"/>
+
+  <meta property="og:site_name" content="天然卷打工战士"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="天然卷打工战士" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">天然卷打工战士</a>
+    </h1>
+    <p class="site-description">全干工程师</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>v8如何存储对象属性</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/06/21/v8如何存储对象属性/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-06-21T15:22:34.370Z">
+          2020-06-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>v8中属性的存放分为快慢属性两种，如果是数字索引则会分配在elements属性中使用线性查询，如果是慢属性则要复杂一些：当属性个数少于10个（这个数字可能根据对象申请时空间而变化）则这些属性会分配到对象内空间；如果属性个数多于10个则会把多出来的属性放到properties属性中并使用线性方式存储；如果多于10个且远远多于10个则会将多出来的属性存储在properties上并使用非线性的存储方式（词典）</p>
+<p>思考题：为什么不推荐使用delete删除属性?</p>
+<p>原因1 delete并不是直接释放内存，而是切断引用从而间接的达到内存释放。<br>原因2 因为线性存储查改快，增删慢的特点，所以在使用delete的情况下，会从快慢属性的列表中移除该属性，导致线性存储触发增删操作，降低效率。<br>原因3 因为delete会移除快慢属性，所以在操作慢属性时，如果属性个数在临界值，可能会在增删的同时触发存储结构的重排（字典变化为线性）导致消耗更多的性能。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2020 天然卷
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

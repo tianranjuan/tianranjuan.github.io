@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>观察者模式 | 天然卷打工战士 | 全干工程师</title>
+
+  
+  <meta name="author" content="天然卷">
+  
+
+  
+  <meta name="description" content="JavaScript Developer">
+  
+
+  
+  
+  <meta name="keywords" content="ID生成器,哈希">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="观察者模式"/>
+
+  <meta property="og:site_name" content="天然卷打工战士"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="天然卷打工战士" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">天然卷打工战士</a>
+    </h1>
+    <p class="site-description">全干工程师</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>观察者模式</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/03/25/观察者模式/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-03-25T10:00:00.000Z">
+          2020-03-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>观察者模式通过“主题”与“观察者”以低耦合的方式来解决对象间存在的一对多关系，如某一对象状态发生改变时，对其他依赖组件发送通知并自动更新。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>具有一对多关系且需要同时更新的场景</p>
+<h2 id="游戏中的实例"><a href="#游戏中的实例" class="headerlink" title="游戏中的实例"></a>游戏中的实例</h2><ul>
+<li>数据变化与ui的绑定</li>
+<li>成就系统<blockquote>
+<p>思考题: 观察者模式与发布订阅的区别</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="模式中的角色"><a href="#模式中的角色" class="headerlink" title="模式中的角色"></a>模式中的角色</h2><ul>
+<li>subject(被观察者、主题)是一个基类，包含notify、addObjserver、removeObserver等接口，用来注册观察者，并在状态发生改变时通知所有观察者;</li>
+<li>observer(观察者)是一个基类，包含update接口，将自身注册到被观察者类中，并在收到通知后进行状态的更新。</li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/系统设计/">系统设计</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/ID生成器/">ID生成器</a><a href="/tags/哈希/">哈希</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2020 天然卷
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
