@@ -226,24 +226,24 @@
 <p>现在点击工具栏上的”保存”按钮，然后关闭工具。</p>
 <p><img src="https://docs.monogame.net/images/getting_started/3_save_content.png" srcset="/img/loading.gif" alt=""></p>
 <p>现在我们已经把资源引入进来了，现在我们来加载它们。首先我们先声明一个变量，这让我们可以图片加载到内存中。</p>
-<div class="hljs"><pre><code class="hljs c#">public class Game1 : Game
+<pre><code class="hljs c#">public class Game1 : Game
 &#123;
     Texture2D ballTexture;
 
-    GraphicsDeviceManager graphics;</code></pre></div>
+    GraphicsDeviceManager graphics;</code></pre>
 
 <p>接下来找到LoadContent函数并初始化ballTexture变量：</p>
-<div class="hljs"><pre><code class="hljs c#">protected override void LoadContent()
+<pre><code class="hljs c#">protected override void LoadContent()
 &#123;
     &#x2F;&#x2F; Create a new SpriteBatch, which can be used to draw textures.
     spriteBatch &#x3D; new SpriteBatch(GraphicsDevice);
 
     &#x2F;&#x2F; TODO: use this.Content to load your game content here
     ballTexture &#x3D; Content.Load&lt;Texture2D&gt;(&quot;ball&quot;);
-&#125;</code></pre></div>
+&#125;</code></pre>
 
 <p>最后找到Draw方法，然后将球绘制到屏幕上：</p>
-<div class="hljs"><pre><code class="hljs c#">protected override void Draw(GameTime gameTime)
+<pre><code class="hljs c#">protected override void Draw(GameTime gameTime)
 &#123;
     graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
@@ -253,7 +253,7 @@
     spriteBatch.End();
 
     base.Draw(gameTime);
-&#125;</code></pre></div>
+&#125;</code></pre>
 
 <p>现在启动项目，可以看到下图：</p>
 <p><img src="https://docs.monogame.net/images/getting_started/3_game.png" srcset="/img/loading.gif" alt=""></p>
@@ -536,5 +536,5 @@
 
 
 
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

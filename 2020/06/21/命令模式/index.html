@@ -230,7 +230,7 @@
 </li>
 </ol>
 <h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>接收器，收音机</p>
-<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AudioPlayer</span> </span>&#123;
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AudioPlayer</span> </span>&#123;
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">play</span><span class="hljs-params">()</span> </span>&#123;
         System.out.println(<span class="hljs-string">"播放..."</span>);
     &#125;
@@ -240,18 +240,18 @@
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">stop</span><span class="hljs-params">()</span> </span>&#123;
         System.out.println(<span class="hljs-string">"停止..."</span>);
     &#125;
-&#125;</code></pre></div>
+&#125;</code></pre>
 
 <p>命令基类</p>
-<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Command</span> </span>&#123;
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Command</span> </span>&#123;
     <span class="hljs-comment">/**</span>
 <span class="hljs-comment">     * 执行方法</span>
 <span class="hljs-comment">     */</span>
     <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">()</span></span>;
-&#125;</code></pre></div>
+&#125;</code></pre>
 
 <p>命令具体实现类</p>
-<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayCommand</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Command</span> </span>&#123;
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayCommand</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Command</span> </span>&#123;
     <span class="hljs-keyword">private</span> AudioPlayer myAudio;
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PlayCommand</span><span class="hljs-params">(AudioPlayer audioPlayer)</span> </span>&#123;
         myAudio = audioPlayer;
@@ -263,9 +263,9 @@
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">()</span> </span>&#123;
         myAudio.play();
     &#125;
-&#125;</code></pre></div>
+&#125;</code></pre>
 
-<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RewindCommand</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Command</span> </span>&#123;
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RewindCommand</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Command</span> </span>&#123;
     <span class="hljs-keyword">private</span> AudioPlayer myAudio;
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">RewindCommand</span><span class="hljs-params">(AudioPlayer myAudio)</span> </span>&#123;
         <span class="hljs-keyword">this</span>.myAudio = myAudio;
@@ -274,10 +274,10 @@
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">()</span> </span>&#123;
         myAudio.rewind();
     &#125;
-&#125;</code></pre></div>
+&#125;</code></pre>
 
 <p>请求发生器，键盘输入</p>
-<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Keypad</span> </span>&#123;
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Keypad</span> </span>&#123;
     <span class="hljs-keyword">private</span> Command playCommand;
     <span class="hljs-keyword">private</span> Command rewindCommand;
     <span class="hljs-keyword">private</span> Command stopCommand;
@@ -308,10 +308,10 @@
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">stop</span><span class="hljs-params">()</span> </span>&#123;
         stopCommand.execute();
     &#125;
-&#125;</code></pre></div>
+&#125;</code></pre>
 
 <p>客户端调用</p>
-<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Julia</span> </span>&#123;
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Julia</span> </span>&#123;
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
         <span class="hljs-comment">// 创建接收者对象</span>
         AudioPlayer audioPlayer = <span class="hljs-keyword">new</span> AudioPlayer();
@@ -331,7 +331,7 @@
         keypad.play();
         keypad.stop();
     &#125;
-&#125;</code></pre></div>
+&#125;</code></pre>
 
 
             </article>
@@ -618,5 +618,5 @@
 
 
 
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>
