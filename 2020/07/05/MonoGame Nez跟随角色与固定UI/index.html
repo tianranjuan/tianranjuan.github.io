@@ -17,7 +17,7 @@
   <meta name="description" content="JavaScript Developer">
   <meta name="author" content="天然卷">
   <meta name="keywords" content="">
-  <title>命令模式 - 天然卷打工战士</title>
+  <title>MonoGame Nez跟随角色与固定UI - 天然卷打工战士</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -154,8 +154,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-06-21 23:22">
-      2020年6月21日 晚上
+    <time datetime="2020-07-05 01:11">
+      2020年7月5日 凌晨
     </time>
   </div>
 
@@ -165,7 +165,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      549 字
+      484 字
     </span>
   
 
@@ -175,7 +175,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7
+      5
        分钟
     </span>
   
@@ -206,132 +206,33 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>命令模式（Command Pattern）是一种数据驱动的设计模式，它属于行为型模式。请求以命令的形式包裹在对象中，并传给调用对象。调用对象寻找可以处理该命令的合适的对象，并把该命令传给相应的对象，该对象执行命令。</p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>gui 交互时可以使用。</p>
-<ul>
-<li>快捷键所触发的指令</li>
-<li>cmd类指令式交互界面</li>
-</ul>
-<h2 id="游戏中的实例"><a href="#游戏中的实例" class="headerlink" title="游戏中的实例"></a>游戏中的实例</h2><ul>
-<li>回放功能: 只需要记录指令栈即可；</li>
-<li>宏命令功能: 将指令进行压缩，变成一个指令队列顺序执行；</li>
-<li>撤销（上一步）功能: 在命令中添加<code>undo</code>接口，并记录最后一次状态改变的值；</li>
-<li>键盘按键释放技能: 按下指定按键时，触发指定命令请求指定功能；</li>
-<li>技能按键绑定。</li>
-</ul>
-<h2 id="模式角色"><a href="#模式角色" class="headerlink" title="模式角色"></a>模式角色</h2><ol>
-<li><p>指令基类（command）</p>
-</li>
-<li><p>接收器（received）</p>
-</li>
-<li><p>请求发生器（invoker）</p>
-</li>
-<li><p>具体命令，继承自指令基类（ConcreteCommand）</p>
-</li>
-</ol>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>接收器，收音机</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AudioPlayer</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">play</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"播放..."</span>);
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">rewind</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"倒带..."</span>);
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">stop</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"停止..."</span>);
-    &#125;
-&#125;</code></pre>
+              <h2 id="摄像机跟随角色"><a href="#摄像机跟随角色" class="headerlink" title="摄像机跟随角色"></a>摄像机跟随角色</h2><p>框架提供了FollowCamera摄像机来方便的创建跟随摄像机，只需要传入一个实体即可实现对该实体的跟踪。</p>
+<pre><code class="hljs c#">Camera.Entity.AddComponent(new FollowCamera(soneEntity));</code></pre>
 
-<p>命令基类</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Command</span> </span>&#123;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 执行方法</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">()</span></span>;
-&#125;</code></pre>
+<p>在使用了这个摄像机后UI组件会出现虽然显示在正确的位置但是并不能正确响应的问题，该问题的原因是在不使用任何渲染器的情况下，UI组件也会被摄像机进行了视口与游戏世界的坐标转换，导致UI看似显示正常但是不能正确响应交互的现象，为了解决这个问题我们需要把UI与游戏世界使用不同渲染器分开渲染来达到目标效果，下面就通过使用<code>ScreenSpaceRenderer</code>渲染器来解决这个问题。</p>
+<h2 id="固定UI"><a href="#固定UI" class="headerlink" title="固定UI"></a>固定UI</h2><p><strong>ScreenSpaceRenderer渲染器</strong></p>
+<blockquote>
+<p>Renderer that renders using its own Camera which doesnt move.</p>
+<p>使用一个渲染器，渲染器拥有自己的摄像机，该摄像机不会进行移动。</p>
+</blockquote>
+<p>通过渲染器的描述我们能发现这个渲染器在渲染时拥有自己的摄像机并且该摄像机也不会进行移动，正好符合我们的要求所以我们尝试用这个渲染器来进行UI的渲染。</p>
+<p>下面开始搞起来。</p>
+<p>添加一个<code>ScreenSpaceRenderer</code>到场景中。</p>
+<pre><code class="hljs c#">
+&#x2F;&#x2F; ScreenSpaceRenderer(int renderOrder, params int[] renderLayers)
+&#x2F;&#x2F; renderOrder: 渲染器的渲染时的顺序
+&#x2F;&#x2F; renderLayers: 使用此渲染器渲染时的层级，如果组件设置的RenderLayer不在列表中则不会被这个渲染器渲染，而是被默认渲染器渲染
 
-<p>命令具体实现类</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PlayCommand</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Command</span> </span>&#123;
-    <span class="hljs-keyword">private</span> AudioPlayer myAudio;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PlayCommand</span><span class="hljs-params">(AudioPlayer audioPlayer)</span> </span>&#123;
-        myAudio = audioPlayer;
-    &#125;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 执行方法</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">()</span> </span>&#123;
-        myAudio.play();
-    &#125;
-&#125;</code></pre>
+AddRenderer(new ScreenSpaceRenderer(1, 1, 2));</code></pre>
+<p>设置<code>RenderLayer</code>(渲染层)</p>
+<pre><code class="hljs c#">
+var Canvas &#x3D; CreateEntity(&quot;Canvas&quot;).AddComponent&lt;UICanvas&gt;(new UICanvas());
+Canvas.RenderLayer &#x3D; 1;
+&#x2F;&#x2F; draw UI</code></pre>
 
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RewindCommand</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Command</span> </span>&#123;
-    <span class="hljs-keyword">private</span> AudioPlayer myAudio;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">RewindCommand</span><span class="hljs-params">(AudioPlayer myAudio)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.myAudio = myAudio;
-    &#125;
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">()</span> </span>&#123;
-        myAudio.rewind();
-    &#125;
-&#125;</code></pre>
+<h3 id="RenderLayer"><a href="#RenderLayer" class="headerlink" title="RenderLayer"></a>RenderLayer</h3><p>并不是所有组件都会有RenderLayer属性，只有集成在RenderableComponent的组件才会有这个属性, 如UICanvas组件</p>
+<pre><code class="hljs c#">public class UICanvas : RenderableComponent, IUpdatable</code></pre>
 
-<p>请求发生器，键盘输入</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Keypad</span> </span>&#123;
-    <span class="hljs-keyword">private</span> Command playCommand;
-    <span class="hljs-keyword">private</span> Command rewindCommand;
-    <span class="hljs-keyword">private</span> Command stopCommand;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPlayCommand</span><span class="hljs-params">(Command playCommand)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.playCommand = playCommand;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setRewindCommand</span><span class="hljs-params">(Command rewindCommand)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.rewindCommand = rewindCommand;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setStopCommand</span><span class="hljs-params">(Command stopCommand)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.stopCommand = stopCommand;
-    &#125;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 执行播放方法</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">play</span><span class="hljs-params">()</span> </span>&#123;
-        playCommand.execute();
-    &#125;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 执行倒带方法</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">rewind</span><span class="hljs-params">()</span> </span>&#123;
-        rewindCommand.execute();
-    &#125;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 执行播放方法</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">stop</span><span class="hljs-params">()</span> </span>&#123;
-        stopCommand.execute();
-    &#125;
-&#125;</code></pre>
-
-<p>客户端调用</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Julia</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        <span class="hljs-comment">// 创建接收者对象</span>
-        AudioPlayer audioPlayer = <span class="hljs-keyword">new</span> AudioPlayer();
-        <span class="hljs-comment">// 创建命令对象</span>
-        Command playCommand = <span class="hljs-keyword">new</span> PlayCommand(audioPlayer);
-        Command rewindCommand = <span class="hljs-keyword">new</span> RewindCommand(audioPlayer);
-        Command stopCommand = <span class="hljs-keyword">new</span> StopCommand(audioPlayer);
-        <span class="hljs-comment">// 创建请求对象</span>
-        Keypad keypad = <span class="hljs-keyword">new</span> Keypad();
-        keypad.setPlayCommand(playCommand);
-        keypad.setRewindCommand(rewindCommand);
-        keypad.setStopCommand(stopCommand);
-        <span class="hljs-comment">// 测试</span>
-        keypad.play();
-        keypad.rewind();
-        keypad.stop();
-        keypad.play();
-        keypad.stop();
-    &#125;
-&#125;</code></pre>
 
 
             </article>
@@ -342,7 +243,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                      <a class="hover-with-bg" href="/categories/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</a>
                     
                   </div>
                 
@@ -350,9 +251,11 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                      <a class="hover-with-bg" href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">游戏设计模式</a>
+                      <a class="hover-with-bg" href="/tags/MonoGame/">MonoGame</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Nez/">Nez</a>
                     
                   </div>
                 
@@ -365,9 +268,9 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/06/21/%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/">
+                      <a href="/2020/07/06/MonoGame%20Nez%E5%88%86%E8%BE%A8%E7%8E%87%E5%88%87%E6%8D%A2ui%E5%AE%9A%E4%BD%8D%E4%B8%8D%E5%87%86/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">享元模式</span>
+                        <span class="hidden-mobile">MonoGame Nez分辨率切换ui定位不准</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -375,8 +278,8 @@
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/06/21/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
-                        <span class="hidden-mobile">观察者模式</span>
+                      <a href="/2020/06/25/MonoGame%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3(%E4%BA%8C)/">
+                        <span class="hidden-mobile">MonoGame官方文档(二)</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -541,7 +444,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "命令模式&nbsp;",
+        "MonoGame Nez跟随角色与固定UI&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
@@ -650,6 +553,13 @@
 
 
 
+
+  <script  src="https://cdn.staticfile.org/mermaid/8.5.0/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
 
 
 
