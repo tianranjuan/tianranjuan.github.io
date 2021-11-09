@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="JavaScript Developer">
+  <meta name="author" content="天然卷">
+  <meta name="keywords" content="">
+  <title>Canvas实现文字粒子效果 - 天然卷打工战士</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/gitalk/1.6.2/gitalk.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>天然卷打工战士</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2019-03-29 14:45">
+      2019年3月29日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>最终实现效果</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15262297-10ecaf3d3baec6ad.gif?imageMogr2/auto-orient/strip" srcset="/img/loading.gif" alt="文字粒子"></p>
+<p><strong>实现思路：</strong></p>
+<blockquote>
+<p>获取到canvas绘制后屏幕上像素点的数组，在目标像素点上绘制粒子替换掉原来的内容</p>
+</blockquote>
+<ul>
+<li>绘制文字</li>
+<li>通过API获取画布的二进制数组</li>
+<li>设置粒子的填充步长</li>
+<li>添加粒子</li>
+<li>循环的遍历粒子，更新粒子的状态</li>
+</ul>
+<p><strong>代码实现</strong></p>
+<p><strong>绘制文字</strong><br> <pre><code class="hljs js">context.textAlign = <span class="hljs-string">"center"</span>;
+context.font = <span class="hljs-keyword">this</span>.size + <span class="hljs-string">"px arial"</span>;
+context.fillText(<span class="hljs-keyword">this</span>.text, <span class="hljs-keyword">this</span>.x, <span class="hljs-keyword">this</span>.y);</code></pre></p>
+<p><strong>获取<code>二进制</code>数组</strong><br> <pre><code class="hljs js"><span class="hljs-keyword">let</span> idata = context.getImageData(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, canvas.width, canvas.height); <span class="hljs-comment">// 获取 canvas指定范围内的 像素数组</span>
+<span class="hljs-keyword">let</span> buffer32 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint32Array</span>(idata.data.buffer); <span class="hljs-comment">// 转成32位的数组</span></code></pre></p>
+<blockquote>
+<p>这里使用的<code>getImageData()</code>方法是获取画布内所有的像素点的<code>二进制</code>表示，在JS中使用<code>Uint32Array</code>来接收，已数组形式展现，没有渲染的地方数组值是0，有渲染的地方为一个非0的数字</p>
+</blockquote>
+<p><strong>填充粒子</strong></p>
+<pre><code class="hljs js"><span class="hljs-comment">// 遍历所有的数组 </span>
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; canvas.height; j += gridY) &#123;<span class="hljs-comment">//步长</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; canvas.width; i += gridX) &#123;<span class="hljs-comment">//步长</span>
+      <span class="hljs-keyword">if</span> (buffer32[j * canvas.width + i]) &#123;
+            <span class="hljs-comment">// 放入粒子对象</span>
+            <span class="hljs-keyword">var</span> ball = <span class="hljs-keyword">new</span> Particle(i, j);
+            <span class="hljs-keyword">this</span>.placement.push(ball);
+      &#125;
+    &#125;
+ &#125;</code></pre>
+<blockquote>
+<p>这里的意思是在二进制数组中某一个范围内的粒子的密度，其中步长越小越密集</p>
+</blockquote>
+<p><strong>更新粒子状态</strong></p>
+<pre><code class="hljs js">(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">drawFrame</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-built_in">window</span>.requestAnimationFrame(drawFrame);
+    context.clearRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, canvas.width, canvas.height);
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; word.placement.length; i++) &#123;
+        <span class="hljs-comment">//调用particle对像的drawParticle方法，开始画布上画</span>
+        word.placement[i].drawParticle();
+    &#125;
+&#125;())</code></pre>
+
+<pre><code class="hljs js"><span class="hljs-keyword">this</span>.drawParticle = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-comment">// 当前粒子变小到一定程度之后，每次将它的半径+0.1，使其慢慢变大</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.radius &lt; <span class="hljs-keyword">this</span>.futurRadius &amp;&amp; <span class="hljs-keyword">this</span>.dying === <span class="hljs-literal">false</span>) &#123;
+        <span class="hljs-keyword">this</span>.radius += durVal;
+    &#125; <span class="hljs-keyword">else</span> &#123; <span class="hljs-comment">//粒子已经到达最大状态</span>
+        <span class="hljs-keyword">this</span>.dying = <span class="hljs-literal">true</span>; <span class="hljs-comment">//表示粒子还处于show状态</span>
+    &#125;
+
+    <span class="hljs-comment">//每次-0.1</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.dying) &#123;
+        <span class="hljs-keyword">this</span>.radius -= durVal;
+    &#125;
+    <span class="hljs-comment">// 画粒子形状</span>
+    context.save();
+    context.fillStyle = <span class="hljs-keyword">this</span>.color;
+    context.beginPath();
+    context.fillRect(<span class="hljs-keyword">this</span>.x, <span class="hljs-keyword">this</span>.y, <span class="hljs-keyword">this</span>.futurRadius, <span class="hljs-keyword">this</span>.futurRadius)
+    context.closePath();
+    context.fill();
+    context.restore();
+
+    <span class="hljs-comment">//将消失的粒子重置最初的状态</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.y &lt; <span class="hljs-number">0</span> || <span class="hljs-keyword">this</span>.radius &lt; <span class="hljs-number">1</span>) &#123;
+        <span class="hljs-keyword">this</span>.x = <span class="hljs-keyword">this</span>.base[<span class="hljs-number">0</span>];
+        <span class="hljs-keyword">this</span>.y = <span class="hljs-keyword">this</span>.base[<span class="hljs-number">1</span>];
+        <span class="hljs-keyword">this</span>.dying = <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">this</span>.futurRadius = randomInt(<span class="hljs-number">1.1</span>, <span class="hljs-number">5.1</span>);
+    &#125;
+&#125;</code></pre>
+
+<p><strong>完整代码</strong></p>
+<pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">canvas</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"dir"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"800"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"800"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"border:1px solid #ccc"</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">canvas</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="javascript">        <span class="hljs-keyword">var</span> canvas = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"dir"</span>);</span>
+<span class="actionscript">        <span class="hljs-keyword">var</span> context = canvas.getContext(<span class="hljs-string">"2d"</span>);</span>
+
+<span class="actionscript">        <span class="hljs-keyword">var</span> gridY = <span class="hljs-number">10</span>,</span>
+            gridX = 10,
+<span class="actionscript">            colors = [<span class="hljs-string">'#f44336'</span>, <span class="hljs-string">'#e91e63'</span>, <span class="hljs-string">'#9c27b0'</span>, <span class="hljs-string">'#673ab7'</span>, <span class="hljs-string">'#3f51b5'</span>,</span>
+<span class="actionscript">                <span class="hljs-string">'#2196f3'</span>, <span class="hljs-string">'#03a9f4'</span>, <span class="hljs-string">'#00bcd4'</span>, <span class="hljs-string">'#009688'</span>, <span class="hljs-string">'#4CAF50'</span>,</span>
+<span class="actionscript">                <span class="hljs-string">'#8BC34A'</span>, <span class="hljs-string">'#CDDC39'</span>, <span class="hljs-string">'#FFEB3B'</span>, <span class="hljs-string">'#FFC107'</span>, <span class="hljs-string">'#FF9800'</span>,</span>
+<span class="actionscript">                <span class="hljs-string">'#FF5722'</span></span>
+            ],
+            durVal = 0.1;
+
+
+<span class="actionscript">        <span class="hljs-comment">// 粒子</span></span>
+<span class="actionscript">        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Particle</span><span class="hljs-params">(x, y)</span> </span>&#123;</span>
+<span class="actionscript">            <span class="hljs-keyword">this</span>.x = x;</span>
+<span class="actionscript">            <span class="hljs-keyword">this</span>.y = y;</span>
+<span class="javascript">            <span class="hljs-keyword">this</span>.color = colors[<span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * colors.length)]; <span class="hljs-comment">//'bleack'//</span></span>
+<span class="actionscript">            <span class="hljs-keyword">this</span>.futurRadius = randomInt(<span class="hljs-number">1.1</span>, <span class="hljs-number">5.1</span>);</span>
+<span class="actionscript">            <span class="hljs-keyword">this</span>.radius = <span class="hljs-number">1.1</span>;</span>
+<span class="actionscript">            <span class="hljs-keyword">this</span>.dying = <span class="hljs-literal">false</span>;</span>
+<span class="actionscript">            <span class="hljs-keyword">this</span>.base = [x, y];</span>
+
+<span class="actionscript">            <span class="hljs-keyword">this</span>.drawParticle = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>&#123;</span>
+
+<span class="actionscript">                <span class="hljs-comment">// 当前粒子变小到一定程度之后，每次将它的半径+0.1，使其慢慢变大</span></span>
+<span class="actionscript">                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.radius &lt; <span class="hljs-keyword">this</span>.futurRadius &amp;&amp; <span class="hljs-keyword">this</span>.dying === <span class="hljs-literal">false</span>) &#123;</span>
+<span class="actionscript">                    <span class="hljs-keyword">this</span>.radius += durVal;</span>
+<span class="actionscript">                &#125; <span class="hljs-keyword">else</span> &#123; <span class="hljs-comment">//粒子已经到达最大状态</span></span>
+<span class="actionscript">                    <span class="hljs-keyword">this</span>.dying = <span class="hljs-literal">true</span>; <span class="hljs-comment">//表示粒子还处于show状态</span></span>
+                &#125;
+
+<span class="actionscript">                <span class="hljs-comment">//每次-0.1</span></span>
+<span class="actionscript">                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.dying) &#123;</span>
+<span class="actionscript">                    <span class="hljs-keyword">this</span>.radius -= durVal;</span>
+                &#125;
+<span class="actionscript">                <span class="hljs-comment">// 画粒子形状</span></span>
+                context.save();
+<span class="actionscript">                context.fillStyle = <span class="hljs-keyword">this</span>.color;</span>
+                context.beginPath();
+<span class="actionscript">                context.fillRect(<span class="hljs-keyword">this</span>.x, <span class="hljs-keyword">this</span>.y, <span class="hljs-keyword">this</span>.futurRadius, <span class="hljs-keyword">this</span>.futurRadius)</span>
+                context.closePath();
+                context.fill();
+                context.restore();
+
+<span class="actionscript">                <span class="hljs-comment">//将消失的粒子重置最初的状态</span></span>
+<span class="actionscript">                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.y &lt; <span class="hljs-number">0</span> || <span class="hljs-keyword">this</span>.radius &lt; <span class="hljs-number">1</span>) &#123;</span>
+<span class="actionscript">                    <span class="hljs-keyword">this</span>.x = <span class="hljs-keyword">this</span>.base[<span class="hljs-number">0</span>];</span>
+<span class="actionscript">                    <span class="hljs-keyword">this</span>.y = <span class="hljs-keyword">this</span>.base[<span class="hljs-number">1</span>];</span>
+<span class="actionscript">                    <span class="hljs-keyword">this</span>.dying = <span class="hljs-literal">false</span>;</span>
+<span class="actionscript">                    <span class="hljs-keyword">this</span>.futurRadius = randomInt(<span class="hljs-number">1.1</span>, <span class="hljs-number">5.1</span>);</span>
+                &#125;
+            &#125;
+        &#125;
+
+<span class="actionscript">        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Shape</span><span class="hljs-params">(x, y, texte)</span> </span>&#123;</span>
+<span class="actionscript">            <span class="hljs-keyword">this</span>.x = x;</span>
+<span class="actionscript">            <span class="hljs-keyword">this</span>.y = y;</span>
+<span class="actionscript">            <span class="hljs-keyword">this</span>.size = <span class="hljs-number">200</span>;</span>
+<span class="actionscript">            <span class="hljs-keyword">this</span>.text = texte;</span>
+<span class="actionscript">            <span class="hljs-keyword">this</span>.placement = [];</span>
+        &#125;
+
+
+<span class="actionscript">        Shape.prototype.getValue = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>&#123;</span>
+<span class="actionscript">            context.textAlign = <span class="hljs-string">"center"</span>;</span>
+<span class="actionscript">            context.font = <span class="hljs-keyword">this</span>.size + <span class="hljs-string">"px arial"</span>;</span>
+<span class="actionscript">            context.fillText(<span class="hljs-keyword">this</span>.text, <span class="hljs-keyword">this</span>.x, <span class="hljs-keyword">this</span>.y);</span>
+
+<span class="javascript">            <span class="hljs-keyword">let</span> idata = context.getImageData(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, canvas.width, canvas.height); <span class="hljs-comment">// 获取 canvas指定范围内的 像素数组</span></span>
+<span class="javascript">            <span class="hljs-keyword">let</span> buffer32 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint32Array</span>(idata.data.buffer); <span class="hljs-comment">// 转成32位的数组</span></span>
+
+<span class="actionscript">            <span class="hljs-comment">// 遍历所有的数组 </span></span>
+<span class="actionscript">            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; canvas.height; j += gridY) &#123;</span>
+<span class="actionscript">                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; canvas.width; i += gridX) &#123;</span>
+                    if (buffer32[j * canvas.width + i]) &#123;
+<span class="actionscript">                        <span class="hljs-comment">// 放入粒子对象</span></span>
+<span class="actionscript">                        <span class="hljs-keyword">var</span> ball = <span class="hljs-keyword">new</span> Particle(i, j);</span>
+<span class="actionscript">                        <span class="hljs-keyword">this</span>.placement.push(ball);</span>
+                    &#125;
+                &#125;
+            &#125;
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+        &#125;
+
+<span class="actionscript">        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">randomInt</span><span class="hljs-params">(min, max)</span> </span>&#123;</span>
+<span class="javascript">            <span class="hljs-keyword">return</span> min + <span class="hljs-built_in">Math</span>.random() * (max - min + <span class="hljs-number">1</span>);</span>
+        &#125;
+
+<span class="actionscript">        <span class="hljs-keyword">var</span> word = <span class="hljs-keyword">new</span> Shape(canvas.width / <span class="hljs-number">2</span>, canvas.height / <span class="hljs-number">2</span>, <span class="hljs-string">'文字粒子'</span>)</span>
+        word.getValue
+
+<span class="actionscript">        (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">drawFrame</span><span class="hljs-params">()</span> </span>&#123;</span>
+<span class="javascript">            <span class="hljs-built_in">window</span>.requestAnimationFrame(drawFrame);</span>
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+<span class="actionscript">            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; word.placement.length; i++) &#123;</span>
+<span class="actionscript">                <span class="hljs-comment">//调用particle对像的drawParticle方法，开始画布上画</span></span>
+                word.placement[i].drawParticle();
+            &#125;
+
+        &#125;())
+    <span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+
+
+
+
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/canvas/">canvas</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/04/08/%E5%AE%9E%E7%8E%B0%E6%91%84%E5%83%8F%E6%9C%BA%E8%B7%9F%E9%9A%8F%E7%A7%BB%E5%8A%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CocosCreator实现摄像机跟随移动</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2019/03/28/git%E6%8A%8A%E6%9F%90%E6%9C%AC%E5%9C%B0%E5%88%86%E6%94%AF%E7%9A%84%E6%9F%90%E6%AC%A1%E4%BF%AE%E6%94%B9%E4%BF%AE%E6%94%B9%E5%88%B0%E5%85%B6%E4%BB%96%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/">
+                        <span class="hidden-mobile">git把某本地分支的某次修改修改到其他远程分支</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Canvas实现文字粒子效果&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="JavaScript Developer">
+  <meta name="author" content="天然卷">
+  <meta name="keywords" content="">
+  <title>纯Canvas事件按钮点击按下效果 - 天然卷打工战士</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/gitalk/1.6.2/gitalk.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>天然卷打工战士</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2019-12-26 00:23">
+      2019年12月26日 凌晨
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      563 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      8
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>使用纯Canvas实现一个按钮点击按下的效果，类似下图</p>
+<p><img src="../images/%E7%BA%AFCanvas%E4%BA%8B%E4%BB%B6%E6%8C%89%E9%92%AE%E7%82%B9%E5%87%BB%E6%8C%89%E4%B8%8B%E6%95%88%E6%9E%9C/image-20200408144716773.png" srcset="/img/loading.gif" alt="image-20200408144716773"></p>
+<p>使用到的API<br>阴影偏移：</p>
+<ul>
+<li>shadowOffsetX = float</li>
+<li>shadowOffsetY = float</li>
+<li>用来实现有体积的视觉效果 效果等同于 <code>css</code>中的<code>shadow</code>属性</li>
+</ul>
+<p>阴影模糊：</p>
+<ul>
+<li>shadowBlur = float</li>
+<li>设置阴影的模糊效果</li>
+</ul>
+<p>阴影颜色：</p>
+<ul>
+<li>shadowColor = color</li>
+<li>设置阴影的颜色</li>
+</ul>
+<p>路径：</p>
+<ul>
+<li><a href="http://www.w3school.com.cn/tags/canvas_beginpath.asp" target="_blank" rel="noopener" title="HTML5 canvas beginPath() 方法"><code>beginPath()</code></a> </li>
+<li><a href="http://www.w3school.com.cn/tags/canvas_moveto.asp" target="_blank" rel="noopener" title="HTML5 canvas moveTo() 方法"><code>moveTo()</code></a></li>
+<li><a href="http://www.w3school.com.cn/tags/canvas_lineto.asp" target="_blank" rel="noopener" title="HTML5 canvas lineTo() 方法"><code>lineTo()</code></a></li>
+<li><a href="http://www.w3school.com.cn/tags/canvas_quadraticcurveto.asp" target="_blank" rel="noopener" title="HTML5 canvas quadraticCurveTo() 方法"><code>quadraticCurveTo()</code></a></li>
+<li><a href="http://www.w3school.com.cn/tags/canvas_closepath.asp" target="_blank" rel="noopener" title="HTML5 canvas closePath() 方法"><code>closePath()</code></a></li>
+<li>以此为 <code>起始一条路径，或重置当前路径</code>、<code>把路径移动到画布中的指定点，不创建线条</code>、<code>添加一个新点，然后在画布中创建从该点到最后指定点的线条</code>、<code>创建二次贝塞尔曲线</code>、<code>创建从当前点回到起始点的路径</code></li>
+</ul>
+<p>具体实现：</p>
+<pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">canvas</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"myCanvas"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"1000"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"800"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"border:1px solid #d3d3d3;"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">canvas</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="javascript">        <span class="hljs-keyword">var</span> c = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"myCanvas"</span>);</span>
+<span class="actionscript">        <span class="hljs-keyword">var</span> ctx = c.getContext(<span class="hljs-string">"2d"</span>);</span>
+
+<span class="actionscript">        <span class="hljs-keyword">var</span> x = <span class="hljs-number">20</span></span>
+<span class="actionscript">        <span class="hljs-keyword">var</span> y = <span class="hljs-number">20</span></span>
+<span class="actionscript">        <span class="hljs-keyword">var</span> height = <span class="hljs-number">100</span></span>
+<span class="actionscript">        <span class="hljs-keyword">var</span> width = <span class="hljs-number">200</span></span>
+<span class="actionscript">        <span class="hljs-keyword">var</span> radius = <span class="hljs-number">5</span></span>
+
+<span class="actionscript">        <span class="hljs-comment">// 绘制初始状态</span></span>
+        radiusRect(x, y, width, height, radius, ctx)
+        setShadow(ctx)
+        draw(ctx)
+        cleartShadow(ctx)
+
+<span class="actionscript">        <span class="hljs-comment">// 绘制圆角矩形</span></span>
+<span class="actionscript">        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">radiusRect</span><span class="hljs-params">(x, y, width, height, radius, ctx)</span> </span>&#123;</span>
+<span class="actionscript">            <span class="hljs-comment">// 开启路径</span></span>
+            ctx.beginPath()
+<span class="actionscript">            <span class="hljs-comment">// 设置填充颜色</span></span>
+<span class="actionscript">            ctx.fillStyle = <span class="hljs-string">"#0066CC"</span></span>
+<span class="actionscript">            <span class="hljs-comment">// 绘制边</span></span>
+            ctx.moveTo(x, y + radius)
+            ctx.lineTo(x, y + height - radius)
+<span class="actionscript">            <span class="hljs-comment">// 绘制圆角</span></span>
+            ctx.quadraticCurveTo(x, y + height, x + radius, y + height)
+            ctx.lineTo(x + width - radius, y + height)
+            ctx.quadraticCurveTo(x + width, y + height, x + width, y + height - radius)
+            ctx.lineTo(x + width, y + radius)
+            ctx.quadraticCurveTo(x + width, y, x + width - radius, y)
+            ctx.lineTo(x + radius, y)
+            ctx.quadraticCurveTo(x, y, x, y + radius)
+<span class="actionscript">            <span class="hljs-comment">// 闭合路径</span></span>
+            ctx.closePath();
+        &#125;
+
+<span class="actionscript">        <span class="hljs-comment">// 设置阴影和偏移</span></span>
+<span class="actionscript">        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setShadow</span><span class="hljs-params">(ctx)</span> </span>&#123;</span>
+            ctx.shadowOffsetX = 0
+<span class="actionscript">            ctx.shadowOffsetY = <span class="hljs-number">10</span> <span class="hljs-comment">// 10个偏移量</span></span>
+            ctx.shadowBlur = 0
+<span class="actionscript">            ctx.shadowColor = <span class="hljs-string">"#006600"</span></span>
+        &#125;
+
+<span class="actionscript">        <span class="hljs-comment">// 清楚掉阴影和位移</span></span>
+<span class="actionscript">        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cleartShadow</span><span class="hljs-params">(ctx)</span> </span>&#123;</span>
+            ctx.shadowOffsetX = 0
+            ctx.shadowOffsetY = 0
+        &#125;
+
+<span class="actionscript">        <span class="hljs-comment">// 绘制到画布上</span></span>
+<span class="actionscript">        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">draw</span><span class="hljs-params">(ctx)</span> </span>&#123;</span>
+            ctx.stroke()
+            ctx.fill()
+        &#125;
+
+<span class="actionscript">        <span class="hljs-comment">//事件监听 按下时，持续的绘制为按下状态</span></span>
+<span class="actionscript">        c.addEventListener(<span class="hljs-string">'mousedown'</span>, (e) =&gt; &#123;</span>
+<span class="handlebars"><span class="xml">            if (e.clientX &gt;= x &amp;&amp; e.clientX <span class="hljs-tag">&lt;<span class="hljs-name">=</span> <span class="hljs-attr">x</span> + <span class="hljs-attr">width</span> &amp;&amp; <span class="hljs-attr">e.clientY</span> &gt;</span>= y &amp;&amp; e.clientY <span class="hljs-tag">&lt;<span class="hljs-name">=</span> <span class="hljs-attr">y</span> + <span class="hljs-attr">height</span> &amp;&amp; <span class="hljs-attr">e</span></span></span></span>
+                .button == 0) &#123;
+<span class="actionscript">                ctx.clearRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1000</span>, <span class="hljs-number">1000</span>) <span class="hljs-comment">// 先清楚所有的矩形</span></span>
+<span class="actionscript">                radiusRect(x, y + <span class="hljs-number">10</span>, width, height, radius, ctx) <span class="hljs-comment">// 10个偏移量</span></span>
+                draw(ctx)
+
+
+            &#125;
+        &#125;)
+
+<span class="actionscript">        <span class="hljs-comment">//事件监听 抬起时，恢复为初始状态</span></span>
+<span class="actionscript">        c.addEventListener(<span class="hljs-string">'mouseup'</span>, (e) =&gt; &#123;</span>
+            if (e.button == 0) &#123;
+<span class="javascript">                setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;</span>
+                    radiusRect(x, y, width, height, radius, ctx)
+                    setShadow(ctx)
+                    draw(ctx)
+                    cleartShadow(ctx)
+                &#125;, 100)
+            &#125;
+        &#125;)
+    <span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/canvas/">canvas</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/12/26/%E4%BD%BF%E7%94%A8VSCode%E7%BC%96%E8%BE%91%E5%99%A8debug%E8%B0%83%E8%AF%95Vue%E4%BB%A3%E7%A0%81/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">使用VSCode编辑器debug调试Vue代码</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2019/11/05/%E5%A6%82%E4%BD%95%E8%B7%B3%E8%BF%87SourceTree%E7%9A%84%E6%B3%A8%E5%86%8C%E6%AD%A5%E9%AA%A4%EF%BC%8C%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8%E5%8A%9F%E8%83%BD%EF%BC%883.2.6%E4%BA%B2%E6%B5%8B%E6%9C%89%E6%95%88%EF%BC%89/">
+                        <span class="hidden-mobile">如何跳过SourceTree的注册步骤，直接使用功能（3.2.6亲测有效）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "纯Canvas事件按钮点击按下效果&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
